@@ -1,0 +1,18 @@
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.exe
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.pdb
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.csprojResolveAssemblyReference.cache
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.exe
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.pdb
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.exe
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.pdb
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.exe
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.pdb
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.exe
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.pdb
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_CLR.dll
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\Newtonsoft.Json.dll
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_CLR.pdb
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\Newtonsoft.Json.xml
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.csprojResolveAssemblyReference.cache
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.exe
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.pdb

@@ -1,0 +1,19 @@
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dacpac
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.pdb
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.dll
+C:\Users\Victor Acer PC\Desktop\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.pdb
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dacpac
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.pdb
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.dll
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.pdb
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\Model.xml
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\refactor.xml
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\postdeploy.sql
+C:\Users\ETS\Desktop\Last CLR to Move Files\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\predeploy.sql
+D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dacpac
+D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll
+D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.pdb
+D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.dll
+D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.pdb

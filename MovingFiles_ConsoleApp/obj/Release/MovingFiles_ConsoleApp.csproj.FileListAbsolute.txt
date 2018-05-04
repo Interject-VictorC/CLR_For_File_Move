@@ -1,0 +1,9 @@
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Release\MovingFiles_ConsoleApp.exe
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Release\MovingFiles_ConsoleApp.pdb
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Release\MovingFiles_CLR.dll
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Release\Newtonsoft.Json.dll
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Release\MovingFiles_CLR.pdb
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Release\Newtonsoft.Json.xml
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Release\MovingFiles_ConsoleApp.csprojResolveAssemblyReference.cache
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Release\MovingFiles_ConsoleApp.exe
+D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Release\MovingFiles_ConsoleApp.pdb
