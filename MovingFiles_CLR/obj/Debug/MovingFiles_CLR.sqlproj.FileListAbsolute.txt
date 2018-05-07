@@ -17,3 +17,8 @@ D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll
 D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.pdb
 D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.dll
 D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.pdb
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dacpac
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.pdb
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.dll
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.pdb

@@ -190,33 +190,13 @@ namespace CLR_MoveFile
             }
 
             // Validate invalid characters
-            //if (HasInvalidCharacter(fileName) ||
-            //    HasInvalidCharacter(sourcePath) ||
-            //    HasInvalidCharacter(destinationSubFolder) ||
-            //    HasInvalidCharacter(filePrefix) ||
-            //    HasInvalidCharacter(fileSuffix))
-            //{
-            //    errorMsg += "An invalid character was found in your parameters." + Environment.NewLine;
-            //}
-
-            if (HasInvalidCharacter(fileName))
+            if (HasInvalidCharacter(fileName) ||
+                HasInvalidCharacter(sourcePath) ||
+                HasInvalidCharacter(destinationSubFolder) ||
+                HasInvalidCharacter(filePrefix) ||
+                HasInvalidCharacter(fileSuffix))
             {
-                errorMsg += "An invalid character in fileName." + Environment.NewLine;
-            }
-
-            if (HasInvalidCharacter(sourcePath))
-            {
-                errorMsg += "An invalid character in sourcePath." + Environment.NewLine;
-            }
-
-            if (HasInvalidCharacter(destinationSubFolder))
-            {
-                errorMsg += "An invalid character in destinationSubFolder." + Environment.NewLine;
-            }
-
-            if (HasInvalidCharacter(filePrefix))
-            {
-                errorMsg += "An invalid character in filePrefix" + Environment.NewLine;
+                errorMsg += "An invalid character was found in your parameters." + Environment.NewLine;
             }
 
             if (!string.IsNullOrEmpty(errorMsg))

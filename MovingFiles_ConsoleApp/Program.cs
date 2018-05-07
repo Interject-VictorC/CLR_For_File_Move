@@ -58,9 +58,70 @@ namespace MovingFiles_ConsoleApp
             try
             {
 
-                /*JSON example:
+                // JSON examples for testing:
 
-                    {"FileName": "test.pdf","SourcePath": "D:\\TempArea\\FilesToMove","DestinationSubFolder": "Imported","FilePrefix": "Prefix_[date]_","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3,}
+                /* 
+                    /////////////////////////////
+                    // TESTING REQUIRED FIELDS //
+                    /////////////////////////////
+
+                    {  
+                       "FileName":"",
+                       "SourcePath":"",
+                       "DestinationSubFolder":"",
+                       "FilePrefix":"Prefix_[date]_",
+                       "FileSuffix":"",
+                       "TestMode":false,
+                       "Versionleadingzeroes":3
+                    }
+
+                    ***** COPY AND PASTE INTO THE COMMAND PROMPT *****
+                    
+                    {"FileName": "","SourcePath": "","DestinationSubFolder": "","FilePrefix": "Prefix_[date]_","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3}
+
+
+                    ///////////////////////////////////////
+                    //// ADDING DATESTAMP TO FILE NAME ////
+                    ///////////////////////////////////////
+                 
+                    {  
+                        "FileName":"test.pdf",
+                        "SourcePath":"D:\\TempArea\\FilesToMove",
+                        "DestinationSubFolder":"Imported",
+                        "FilePrefix":"[date]",
+                        "FileSuffix":"",
+                        "TestMode":false,
+                        "Versionleadingzeroes":3,
+                    }
+
+                    ***** COPY AND PASTE INTO THE COMMAND PROMPT *****
+
+                    // Default datestamp
+                    {"FileName": "test.pdf","SourcePath": "D:\\TempArea\\FilesToMove","DestinationSubFolder": "Imported","FilePrefix": "[date]","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3}
+
+                    // Custom datestamp with formatting
+                    {"FileName": "test.pdf","SourcePath": "D:\\TempArea\\FilesToMove","DestinationSubFolder": "Imported","FilePrefix": "[date/yyyyMMdd]","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3}
+
+                    
+                    ///////////////////////////////////////////////////
+                    //// ADDING TEXt AROUND DATESTAMP TO FILE NAME ////
+                    ///////////////////////////////////////////////////
+                 
+                    {  
+                        "FileName":"test.pdf",
+                        "SourcePath":"D:\\TempArea\\FilesToMove",
+                        "DestinationSubFolder":"Imported",
+                        "FilePrefix":"MyPrefix_[date]_",
+                        "FileSuffix":"",
+                        "TestMode":false,
+                        "Versionleadingzeroes":3,
+                    }
+
+                    ***** COPY AND PASTE INTO THE COMMAND PROMPT *****
+
+                    // Default datestamp
+                    {"FileName": "test.pdf","SourcePath": "D:\\TempArea\\FilesToMove","DestinationSubFolder": "Imported","FilePrefix": "MyPrefix_[date]_","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3}
+
 
                  */
 
@@ -71,7 +132,19 @@ namespace MovingFiles_ConsoleApp
                 Console.ForegroundColor = ConsoleColor.White;
                 string json = Console.ReadLine();
 
-                ParseJsonIntoParams(json);
+                try
+                {
+                    ParseJsonIntoParams(json);
+                }
+                catch (Exception)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid JSON. Make sure JSON is well formatted.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    keepConsoleOpen = true;
+                    return;
+                }
+                
 
                 CLR_MoveFile.StoredProcedures.Process(
                      filename
