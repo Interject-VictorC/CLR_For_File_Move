@@ -2,13 +2,16 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace MovingFiles_ConsoleApp
 {
 
     public static class Program
     {
+        static bool wasDLLHexProvided = false;
         static bool keepConsoleOpen = true;
 
         static string filename;
@@ -51,6 +54,7 @@ namespace MovingFiles_ConsoleApp
         private static void RunProcess()
         {
             // local output variables
+            
             bool success = false;
             string returnMessage = "";
             string newFileNameOut = "";
@@ -125,6 +129,34 @@ namespace MovingFiles_ConsoleApp
 
                  */
 
+                if (!wasDLLHexProvided)
+                {
+                    Console.WriteLine("Is the assenbly installed in SQL Server?. Enter assembly name with extension to get the hex value or write Yes to skip it.");
+                    string assemblyName = Console.ReadLine();
+
+                    string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @".\"));
+                    string dllFullPath = clrProjectPath + @"bin\Release\" + assemblyName;
+
+                    if (File.Exists(dllFullPath) == false && assemblyName.ToLower() != "yes")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Assembly does not exists in the '~\\bin\\Release' folder.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("");
+                        keepConsoleOpen = true;
+                        return;
+                    }
+
+                    if (assemblyName.ToLower() != "yes")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        string dllHexData = GetHexString(dllFullPath);
+                        Console.WriteLine(dllHexData);
+                        wasDLLHexProvided = true;
+                    }
+                    
+                }
+                
                 Console.WriteLine("");
                 Console.WriteLine("");
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -221,6 +253,28 @@ namespace MovingFiles_ConsoleApp
             versionleadingzeroes = (Int32)jObj["Versionleadingzeroes"];
             testMode = (bool)jObj["TestMode"];
 
+        }
+
+        private static string GetHexString(string assemblyPath)
+        {
+            if (!Path.IsPathRooted(assemblyPath))
+                assemblyPath = Path.Combine(Environment.CurrentDirectory, assemblyPath);
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append("0x");
+
+            using (FileStream stream = new FileStream(assemblyPath,
+                  FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                int currentByte = stream.ReadByte();
+                while (currentByte > -1)
+                {
+                    builder.Append(currentByte.ToString("X2", CultureInfo.InvariantCulture));
+                    currentByte = stream.ReadByte();
+                }
+            }
+
+            return builder.ToString();
         }
 
     }
