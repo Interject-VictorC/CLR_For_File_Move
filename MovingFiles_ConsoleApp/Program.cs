@@ -128,34 +128,6 @@ namespace MovingFiles_ConsoleApp
 
 
                  */
-
-                if (!wasDLLHexProvided)
-                {
-                    Console.WriteLine("Is the assenbly installed in SQL Server?. Enter assembly name with extension to get the hex value or write Yes to skip it.");
-                    string assemblyName = Console.ReadLine();
-
-                    string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @".\"));
-                    string dllFullPath = clrProjectPath + @"bin\Release\" + assemblyName;
-
-                    if (File.Exists(dllFullPath) == false && assemblyName.ToLower() != "yes")
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Assembly does not exists in the '~\\bin\\Release' folder.");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine("");
-                        keepConsoleOpen = true;
-                        return;
-                    }
-
-                    if (assemblyName.ToLower() != "yes")
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        string dllHexData = GetHexString(dllFullPath);
-                        Console.WriteLine(dllHexData);
-                        wasDLLHexProvided = true;
-                    }
-                    
-                }
                 
                 Console.WriteLine("");
                 Console.WriteLine("");
@@ -164,19 +136,48 @@ namespace MovingFiles_ConsoleApp
                 Console.ForegroundColor = ConsoleColor.White;
                 string json = Console.ReadLine();
 
-                try
+                if (json.ToLower() == "givememydllhash")
                 {
-                    ParseJsonIntoParams(json);
+                    if (!wasDLLHexProvided)
+                    {
+
+                        string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @".\"));
+                        string dllFullPath = clrProjectPath + @"bin\Release\MovingFiles_CLR.dll";
+
+                        if (File.Exists(dllFullPath) == false)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Assembly does not exists in the '~\\bin\\Release' folder.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("");
+                            keepConsoleOpen = true;
+                            return;
+                        }
+                        
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        string dllHashData = GenerateSHA512String(dllFullPath);
+                        Console.WriteLine(dllHashData);
+                        wasDLLHexProvided = true;
+                        return;
+
+                    }
                 }
-                catch (Exception)
+                else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid JSON. Make sure JSON is well formatted.");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    keepConsoleOpen = true;
-                    return;
+                    try
+                    {
+                        ParseJsonIntoParams(json);
+                    }
+                    catch (Exception)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid JSON. Make sure JSON is well formatted.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        keepConsoleOpen = true;
+                        return;
+                    }
                 }
-                
+
 
                 CLR_MoveFile.StoredProcedures.Process(
                      filename
@@ -255,16 +256,16 @@ namespace MovingFiles_ConsoleApp
 
         }
 
-        private static string GetHexString(string assemblyPath)
+        public static string GenerateSHA512String(string assemblyPath)
         {
+
             if (!Path.IsPathRooted(assemblyPath))
                 assemblyPath = Path.Combine(Environment.CurrentDirectory, assemblyPath);
 
             StringBuilder builder = new StringBuilder();
             builder.Append("0x");
 
-            using (FileStream stream = new FileStream(assemblyPath,
-                  FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream stream = new FileStream(assemblyPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 int currentByte = stream.ReadByte();
                 while (currentByte > -1)
@@ -274,7 +275,20 @@ namespace MovingFiles_ConsoleApp
                 }
             }
 
-            return builder.ToString();
+            System.Security.Cryptography.SHA512 sha512 = System.Security.Cryptography.SHA512Managed.Create();
+            byte[] bytes = Encoding.UTF8.GetBytes(builder.ToString());
+            byte[] hash = sha512.ComputeHash(bytes);
+            return GetStringFromHash(hash);
+        }
+
+        private static string GetStringFromHash(byte[] hash)
+        {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                result.Append(hash[i].ToString("X2"));
+            }
+            return result.ToString();
         }
 
     }

@@ -16,12 +16,13 @@ D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\bin\Debug\Newtonsoft.Json.x
 D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.csprojResolveAssemblyReference.cache
 D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.exe
 D:\VSProjects\MovingFiles_CLR\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.pdb
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.csprojResolveAssemblyReference.cache
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.exe.config
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.exe
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_ConsoleApp.pdb
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_CLR.dll
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\Newtonsoft.Json.dll
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\MovingFiles_CLR.pdb
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\bin\Debug\Newtonsoft.Json.xml
-D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.csprojResolveAssemblyReference.cache
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.exe
 D:\GIT_Projects\CLR_For_File_Move\MovingFiles_ConsoleApp\obj\Debug\MovingFiles_ConsoleApp.pdb

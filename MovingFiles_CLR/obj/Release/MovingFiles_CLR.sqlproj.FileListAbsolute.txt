@@ -7,3 +7,12 @@ D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Release\Model.xml
 D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Release\refactor.xml
 D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Release\postdeploy.sql
 D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\obj\Release\predeploy.sql
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Release\MovingFiles_CLR.dacpac
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Release\MovingFiles_CLR.dll
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Release\MovingFiles_CLR.pdb
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Release\Model.xml
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Release\refactor.xml
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Release\postdeploy.sql
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Release\predeploy.sql
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Release\MovingFiles_CLR.dll
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Release\MovingFiles_CLR.pdb
