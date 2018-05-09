@@ -1,7 +1,7 @@
-﻿using CLR_MoveFile;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -136,27 +136,47 @@ namespace MovingFiles_ConsoleApp
                 Console.ForegroundColor = ConsoleColor.White;
                 string json = Console.ReadLine();
 
-                if (json.ToLower() == "givememydllhash")
+                if (json.ToLower() == "givememydllhex")
                 {
                     if (!wasDLLHexProvided)
                     {
 
-                        string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @".\"));
-                        string dllFullPath = clrProjectPath + @"bin\Release\MovingFiles_CLR.dll";
+                        string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @"..\"));
+                        string dllFullPath = clrProjectPath + @"MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll";
 
                         if (File.Exists(dllFullPath) == false)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Assembly does not exists in the '~\\bin\\Release' folder.");
+                            Console.WriteLine("Assembly does not exists in the '~\\bin\\Debug' folder.");
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine("");
                             keepConsoleOpen = true;
                             return;
                         }
-                        
+
+                        //Console.ForegroundColor = ConsoleColor.Yellow;
+                        //string dllHashData = GenerateSHA512String(dllFullPath);
+                        //Console.WriteLine(dllHashData);
+                        //wasDLLHexProvided = true;
+                        //return;
+
+                        //Console.ForegroundColor = ConsoleColor.Yellow;
+                        //string dllHexData = GetHexString(dllFullPath);
+                        //Console.WriteLine(dllHexData);
+                        //wasDLLHexProvided = true;
+                        //return;
+
+                        //WriteAllText creates a file, writes the specified string to the file,
+                        //and then closes the file.    You do NOT need to call Flush() or Close().
+                        string hexdataTxtFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @"..\"));
+                        string fullHexdataTxtFilePath = hexdataTxtFilePath + @"MovingFiles_ConsoleApp\dll_hex.txt";
+                        System.IO.File.WriteAllText(fullHexdataTxtFilePath, GetHexString(dllFullPath));
+
+                        // Open the stream and read it back.
+                        Process.Start(fullHexdataTxtFilePath);
+
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        string dllHashData = GenerateSHA512String(dllFullPath);
-                        Console.WriteLine(dllHashData);
+                        Console.WriteLine("Hex data was generated. See dll_hex.txt file.");
                         wasDLLHexProvided = true;
                         return;
 
@@ -262,23 +282,26 @@ namespace MovingFiles_ConsoleApp
             if (!Path.IsPathRooted(assemblyPath))
                 assemblyPath = Path.Combine(Environment.CurrentDirectory, assemblyPath);
 
-            StringBuilder builder = new StringBuilder();
-            builder.Append("0x");
-
+            //StringBuilder builder = new StringBuilder();
+            //builder.Append("0x");
+            List<byte> byteList = new List<byte>();
+            byte[] hashValue;
             using (FileStream stream = new FileStream(assemblyPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 int currentByte = stream.ReadByte();
                 while (currentByte > -1)
                 {
-                    builder.Append(currentByte.ToString("X2", CultureInfo.InvariantCulture));
+                    //builder.Append(currentByte.ToString("X2", CultureInfo.InvariantCulture));
                     currentByte = stream.ReadByte();
+                    byteList.Add((byte)currentByte);
                 }
+
+                System.Security.Cryptography.SHA512 sha512 = System.Security.Cryptography.SHA512Managed.Create();
+                byte[] bytes = byteList.ToArray(); //Encoding.UTF8.GetBytes(builder.ToString());
+                hashValue = sha512.ComputeHash(bytes);
             }
 
-            System.Security.Cryptography.SHA512 sha512 = System.Security.Cryptography.SHA512Managed.Create();
-            byte[] bytes = Encoding.UTF8.GetBytes(builder.ToString());
-            byte[] hash = sha512.ComputeHash(bytes);
-            return GetStringFromHash(hash);
+            return GetStringFromHash(hashValue);
         }
 
         private static string GetStringFromHash(byte[] hash)
@@ -291,5 +314,38 @@ namespace MovingFiles_ConsoleApp
             return result.ToString();
         }
 
+        private static string GetHexString(string assemblyPath)
+        {
+            if (!Path.IsPathRooted(assemblyPath))
+                assemblyPath = Path.Combine(Environment.CurrentDirectory, assemblyPath);
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append("0x");
+
+            using (FileStream stream = new FileStream(assemblyPath,
+                  FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                int currentByte = stream.ReadByte();
+                while (currentByte > -1)
+                {
+                    builder.Append(currentByte.ToString("X2", CultureInfo.InvariantCulture));
+                    currentByte = stream.ReadByte();
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        // Print the byte array in a readable format.
+        //public static void PrintByteArray(byte[] array)
+        //{
+        //    int i;
+        //    for (i = 0; i < array.Length; i++)
+        //    {
+        //        Console.Write(String.Format("{0:X2}", array[i]));
+        //        if ((i % 4) == 3) Console.Write(" ");
+        //    }
+        //    Console.WriteLine();
+        //}
     }
 }

@@ -1,29 +1,87 @@
-﻿
--- In case clr needs to be enabled in your session
-/*
+﻿-- Execute all the script in order.
+
+USE master
+
+IF EXISTS(select * from sys.databases where name='CLR_Demos')
+	DROP DATABASE CLR_Demos
+
+CREATE DATABASE CLR_Demos
+
+USE CLR_Demos 
+GO
+
+-----------------------------------
+-- Enable Clr Code in SQL Server --
+-----------------------------------
 Declare @@previousClrEnabled sql_variant
 select @@previousClrEnabled = value from sys.configurations where name ='clr enabled'
  
 EXEC sp_configure 'clr enabled' , '1'
 RECONFIGURE
 GO
-*/
+--
+-- EXEC sp_configure 'clr enabled' , '0'
+-- RECONFIGURE
 
--- Request for the permission of type 'System.Security.Permissions.RegistryPermission, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' failed
+
+----------------------------------------------
+-- Create SQL assembly of the .net assembly --
+----------------------------------------------
+CREATE ASSEMBLY [MovingFiles_CLR] 
+from 'copy hex value from txt file without quotes'
+WITH PERMISSION_SET = SAFE;
+
+-- If deeper access is needed by the CLR, then the assembly may need to have a less restrictive "PERMISSION_SET"
 /*
-ALTER DATABASE Demos SET TRUSTWORTHY ON -- "TRUSTWORTHY ON" allows "EXTERNAL_ACCESS"
-GO
+Example error message:
+CREATE ASSEMBLY for assembly 'ClrEncryption' failed because assembly 'ClrEncryption' is not authorized for PERMISSION_SET = EXTERNAL_ACCESS.  The assembly is authorized when either of the following is true: the database owner (DBO) has EXTERNAL ACCESS ASSEMBLY permission and the database has the TRUSTWORTHY database property on; or the assembly is signed with a certificate or an asymmetric key that has a corresponding login with EXTERNAL ACCESS ASSEMBLY permission.
 */
 
+-- this will probably also require the database to allow different security access. For Example: 
+ALTER DATABASE [CLR_Demos] SET TRUSTWORTHY ON 
+-- Please research the implications of these settings before altering the database.
 
-/* CREATING CLR IN A DATABASE
+ALTER DATABASE [CLR_Demos]
+SET TRUSTWORTHY ON;
 
-DECLARE @CLR_Dll_Directory NVARCHAR(500) -- Make sure to use you own dll file path
-SET @CLR_Dll_Directory = 'D:\VSProjects\MovingFiles_CLR\MovingFiles_CLR\bin\Release\MovingFiles_CLR.dll'
+-- Create SQL assembly of the .net assembly
+CREATE ASSEMBLY [MovingFiles_CLR] 
+from 'copy hex value from txt file without quotes'
+WITH PERMISSION_SET = EXTERNAL_ACCESS;
 
-CREATE ASSEMBLY [MovingFiles_CLR] from @CLR_Dll_Directory WITH PERMISSION_SET = EXTERNAL_ACCESS;
+ALTER DATABASE [CLR_Demos]
+SET TRUSTWORTHY OFF;
+
+-- more info about permission_set
+/*
+ from msdn: https://docs.microsoft.com/en-us/sql/t-sql/statements/create-assembly-transact-sql
+	SAFE is the most restrictive permission set. Code executed by an assembly with SAFE permissions cannot access external system resources such as files, the network, environment variables, or the registry.+
+	EXTERNAL_ACCESS enables assemblies to access certain external system resources such as files, networks, environmental variables, and the registry.
+	UNSAFE enables assemblies unrestricted access to resources, both within and outside an instance of SQL Server. Code running from within an UNSAFE assembly can call unmanaged code
+*/
+
+----------------------------------------------------------------------------------------------------------
+-- ADD CLR in the trusted list using hash based on the binary content from the sys.assembly_files table --
+----------------------------------------------------------------------------------------------------------
+DECLARE @Hash BINARY(64),
+    @ClrName NVARCHAR(4000),
+    @AssemblySize INT,
+    @MvID UNIQUEIDENTIFIER;
+
+SELECT  @Hash = HASHBYTES(N'SHA2_512', af.[content]),
+		@ClrName = CONVERT(NVARCHAR(4000), ASSEMBLYPROPERTY(af.[name],N'CLRName'))
+FROM    sys.assembly_files af
+WHERE   af.[name] = N'MovingFiles_CLR'
+AND     af.[file_id] = 1;
+
+SELECT  @ClrName, @Hash;
+
+EXEC sys.sp_add_trusted_assembly @Hash, @ClrName;
 GO
 
+-------------------------------------------
+-- CREATE STORED PROCEDURE THAT USES CLR --
+-------------------------------------------
 CREATE PROCEDURE [dbo].[CLR_MoveFile]
 	@FileName NVARCHAR (MAX), 
 	@SourcePath NVARCHAR (MAX), 
@@ -36,13 +94,11 @@ CREATE PROCEDURE [dbo].[CLR_MoveFile]
 	@ReturnMessage NVARCHAR (MAX) OUTPUT, 
 	@NewFileNameOut NVARCHAR (MAX) OUTPUT
 AS EXTERNAL NAME [MovingFiles_CLR].[CLR_MoveFile.StoredProcedures].[CLR_MoveFile]
-GO
 
-*/
 
--- TESTING CLR
-
---input params
+-----------------
+-- TESTING CLR --
+-----------------
 declare @FileName			NVARCHAR(100) = 'test.pdf'
 declare @SourcePath			NVARCHAR(100) = 'D:\\TempArea\\FilesToMove'
 declare @MoveToSubFolder	NVARCHAR(100) = 'Imported'
