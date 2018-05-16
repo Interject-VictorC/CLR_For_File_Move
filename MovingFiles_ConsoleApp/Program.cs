@@ -160,7 +160,7 @@ namespace MovingFiles_ConsoleApp
                 // givememysqlscript will provide the full t-sql script to be ran in SQL Server to create Assembly.
                 else if (json.ToLower() == "givememysqlscript")
                 {
-                    string txtSqlScriptFilePath = clrProjectPath + @"MovingFiles_ConsoleApp\script_for_sqlserver.txt";
+                    string txtSqlScriptFilePath = clrProjectPath + @"MovingFiles_ConsoleApp\sql_script_template.txt";
                     string text = File.ReadAllText(txtSqlScriptFilePath);
 
                     // Replace tokens in the t-sql script file template

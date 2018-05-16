@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="old_clr_doc.txt" />
-    <Content Include="script_for_sqlserver.txt" />
+    <Content Include="sql_script_template.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MovingFiles_CLR\MovingFiles_CLR.sqlproj">
