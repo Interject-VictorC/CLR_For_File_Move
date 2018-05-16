@@ -235,6 +235,15 @@ namespace CLR_MoveFile
                 errorMsg += "FileName " + fileName + " does not exist in SourcePath " + sourcePath + " ." + Environment.NewLine;
             }
 
+            if (!string.IsNullOrEmpty(errorMsg))
+            {
+                success = false;
+                returnMessage = errorMsg.TrimEnd('\n');
+                newFileNameOut = "Unknown";
+                return;
+            }
+
+
             /////////////////////////////////////////////////////////////////////////////////////////////////
             // **************************************** IMPORTANT **************************************** //
             /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -267,7 +276,7 @@ namespace CLR_MoveFile
             ////////////////////////////////////////
 
             // Prefix and suffix hold the final date, text, or date and text as a stamp for the filename.
-            string prefix = ""; 
+            string prefix = "";
             string suffix = "";
 
             try

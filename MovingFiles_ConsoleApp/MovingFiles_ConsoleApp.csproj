@@ -52,7 +52,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQL_CLR_Install_Doc.txt" />
+    <Content Include="old_clr_doc.txt" />
+    <Content Include="script_for_sqlserver.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MovingFiles_CLR\MovingFiles_CLR.sqlproj">

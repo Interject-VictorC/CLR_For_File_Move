@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "MovingFiles_CLR"
 :setvar DefaultFilePrefix "MovingFiles_CLR"
-:setvar DefaultDataPath "C:\Users\VictorC.INTERJECT\AppData\Local\Microsoft\VisualStudio\SSDT\MovingFiles_CLR"
-:setvar DefaultLogPath "C:\Users\VictorC.INTERJECT\AppData\Local\Microsoft\VisualStudio\SSDT\MovingFiles_CLR"
+:setvar DefaultDataPath "C:\Users\Victor Callegari\AppData\Local\Microsoft\VisualStudio\SSDT\MovingFiles_CLR"
+:setvar DefaultLogPath "C:\Users\Victor Callegari\AppData\Local\Microsoft\VisualStudio\SSDT\MovingFiles_CLR"
 
 GO
 :on error exit

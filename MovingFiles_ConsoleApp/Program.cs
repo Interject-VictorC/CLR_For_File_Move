@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -11,7 +12,6 @@ namespace MovingFiles_ConsoleApp
 
     public static class Program
     {
-        static bool wasDLLHexProvided = false;
         static bool keepConsoleOpen = true;
 
         static string filename;
@@ -136,51 +136,47 @@ namespace MovingFiles_ConsoleApp
                 Console.ForegroundColor = ConsoleColor.White;
                 string json = Console.ReadLine();
 
-                if (json.ToLower() == "givememydllhex")
+                string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @"..\")); // project main root
+                string dllFullPath = clrProjectPath + @"MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll"; // dll full file path
+
+                // givememydllhash will provide a hash to create assembly in SQL Server
+                if (json.ToLower() == "givememydllhash")
                 {
-                    if (!wasDLLHexProvided)
+                    if (File.Exists(dllFullPath) == false)
                     {
-
-                        string clrProjectPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @"..\"));
-                        string dllFullPath = clrProjectPath + @"MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll";
-
-                        if (File.Exists(dllFullPath) == false)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Assembly does not exists in the '~\\bin\\Debug' folder.");
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine("");
-                            keepConsoleOpen = true;
-                            return;
-                        }
-
-                        //Console.ForegroundColor = ConsoleColor.Yellow;
-                        //string dllHashData = GenerateSHA512String(dllFullPath);
-                        //Console.WriteLine(dllHashData);
-                        //wasDLLHexProvided = true;
-                        //return;
-
-                        //Console.ForegroundColor = ConsoleColor.Yellow;
-                        //string dllHexData = GetHexString(dllFullPath);
-                        //Console.WriteLine(dllHexData);
-                        //wasDLLHexProvided = true;
-                        //return;
-
-                        //WriteAllText creates a file, writes the specified string to the file,
-                        //and then closes the file.    You do NOT need to call Flush() or Close().
-                        string hexdataTxtFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())), @"..\"));
-                        string fullHexdataTxtFilePath = hexdataTxtFilePath + @"MovingFiles_ConsoleApp\dll_hex.txt";
-                        System.IO.File.WriteAllText(fullHexdataTxtFilePath, GetHexString(dllFullPath));
-
-                        // Open the stream and read it back.
-                        Process.Start(fullHexdataTxtFilePath);
-
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Hex data was generated. See dll_hex.txt file.");
-                        wasDLLHexProvided = true;
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Assembly does not exists in the '~\\bin\\Debug' folder.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("");
+                        keepConsoleOpen = true;
                         return;
-
                     }
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    string dllHashData = GenerateSHA512String(dllFullPath);
+                    Console.WriteLine(dllHashData);
+                    return;
+                }
+                // givememysqlscript will provide the full t-sql script to be ran in SQL Server to create Assembly.
+                else if (json.ToLower() == "givememysqlscript")
+                {
+                    string txtSqlScriptFilePath = clrProjectPath + @"MovingFiles_ConsoleApp\script_for_sqlserver.txt";
+                    string text = File.ReadAllText(txtSqlScriptFilePath);
+
+                    // Replace tokens in the t-sql script file template
+                    text = text.Replace("[myhash]", "0x" + GenerateSHA512String(dllFullPath));
+                    text = text.Replace("[mydllpath]", dllFullPath);
+                    
+                    // create and temp file named output.txt
+                    using (var output = new StreamWriter("output.txt"))
+                    {
+                        output.WriteLine(text);
+                    }
+
+                    Process.Start("output.txt"); // Open output.txt file
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("SQL Server script was created.");
+                    return;
                 }
                 else
                 {
@@ -282,23 +278,13 @@ namespace MovingFiles_ConsoleApp
             if (!Path.IsPathRooted(assemblyPath))
                 assemblyPath = Path.Combine(Environment.CurrentDirectory, assemblyPath);
 
-            //StringBuilder builder = new StringBuilder();
-            //builder.Append("0x");
             List<byte> byteList = new List<byte>();
             byte[] hashValue;
+
             using (FileStream stream = new FileStream(assemblyPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                int currentByte = stream.ReadByte();
-                while (currentByte > -1)
-                {
-                    //builder.Append(currentByte.ToString("X2", CultureInfo.InvariantCulture));
-                    currentByte = stream.ReadByte();
-                    byteList.Add((byte)currentByte);
-                }
 
-                System.Security.Cryptography.SHA512 sha512 = System.Security.Cryptography.SHA512Managed.Create();
-                byte[] bytes = byteList.ToArray(); //Encoding.UTF8.GetBytes(builder.ToString());
-                hashValue = sha512.ComputeHash(bytes);
+                hashValue = (byte[])new SqlBinary(System.Security.Cryptography.SHA512.Create().ComputeHash(stream));
             }
 
             return GetStringFromHash(hashValue);
@@ -336,16 +322,5 @@ namespace MovingFiles_ConsoleApp
             return builder.ToString();
         }
 
-        // Print the byte array in a readable format.
-        //public static void PrintByteArray(byte[] array)
-        //{
-        //    int i;
-        //    for (i = 0; i < array.Length; i++)
-        //    {
-        //        Console.Write(String.Format("{0:X2}", array[i]));
-        //        if ((i % 4) == 3) Console.Write(" ");
-        //    }
-        //    Console.WriteLine();
-        //}
     }
 }

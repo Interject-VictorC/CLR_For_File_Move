@@ -1,0 +1,78 @@
+
+/*
+
+USE [DatabaseName]
+Go
+
+----------------------------------------------------------
+------------ ADD ASSEMBLY TO THE TRUSTED CLRs ------------
+----------------------------------------------------------
+
+-- drop assembly in case exists. 
+-- Find hash of the assembly to delete: SELECT * FROM sys.trusted_assemblies
+-- EXEC sys.sp_drop_trusted_assembly thehash
+-- @clrName E.g: 'clr_name, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
+
+DECLARE @clrName nvarchar(4000) = 'MovingFiles_CLR, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
+DECLARE @hash binary(64) = 0x544A4CDC4B57C741854571DC889C9D4624EA21D6541B39B94D4B3DB674CA3DE556F9382F7BAA7C959A0C21CE1AD9501B1C2E4E24CEDAB50B4AACDF233C1C7DAE;
+
+EXEC sys.sp_add_trusted_assembly
+	@hash        = @hash,
+	@description = @clrName
+Go
+
+-----------------------------------------
+------------ CREATE ASSEMBLY ------------
+-----------------------------------------
+CREATE ASSEMBLY [MovingFiles_CLR] 
+from 'P:\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll'
+WITH PERMISSION_SET = EXTERNAL_ACCESS;
+Go
+
+---------------------------------------------------
+------ CREATE STORED PROCEDURE THAT USES CLR ------
+---------------------------------------------------
+CREATE PROCEDURE [dbo].[CLR_MoveFile]
+	 @FileName                  NVARCHAR (MAX)
+	,@SourcePath                NVARCHAR (MAX)
+	,@DestinationSubFolder      NVARCHAR (MAX)
+	,@FilePrefix                NVARCHAR (MAX)
+	,@FileSuffix                NVARCHAR (MAX)
+	,@VersionLeadingZeroes      INT
+	,@TestMode                  BIT
+	,@Success                   BIT OUTPUT
+	,@ReturnMessage             NVARCHAR (MAX) OUTPUT
+	,@NewFileNameOut            NVARCHAR (MAX) OUTPUT
+AS EXTERNAL NAME [MovingFiles_CLR].[CLR_MoveFile.StoredProcedures].[CLR_MoveFile]
+Go
+
+------------------------------------------------------------
+------------------------ TESTING CLR -----------------------
+------------------------------------------------------------
+declare @FileName           NVARCHAR(100) = ''
+declare @SourcePath         NVARCHAR(100) = ''
+declare @MoveToSubFolder    NVARCHAR(100) = ''
+declare @ReturnMessage      NVARCHAR(500) = ''
+declare @NewFileNameOut     NVARCHAR(200) = ''
+declare @Success            BIT = 0
+		
+EXECUTE [dbo].[CLR_MoveFile]
+	 @FileName                 = @FileName
+	,@SourcePath               = @SourcePath
+	,@DestinationSubFolder     = @MoveToSubFolder
+	,@FilePrefix               = '' 
+	,@FileSuffix               = ''
+	,@TestMode                 = 1
+	,@versionleadingzeroes     = 3
+	,@Success                  = @Success  output
+	,@ReturnMessage            = @ReturnMessage    output
+	,@NewFileNameOut           = @NewFileNameOut   output
+	    				   
+select
+	 @ReturnMessage     as '@ReturnMessage'
+	,@Success           as '@Success'
+	,@NewFileNameOut    as '@NewFileNameOut'
+
+
+*/
+
