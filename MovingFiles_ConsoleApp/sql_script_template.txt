@@ -1,18 +1,37 @@
 
+
+--------------------------------------------------------------    Console Application Test    ----------------------------------------------------------------
+/*************************************************************************************************************************************************************
+*                                                                                                                                                            *
+*   ENTER JSON: {"FileName": "","SourcePath": "","DestinationSubFolder": "","FilePrefix": "","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3}   *
+*                                                                                                                                                            *
+*      The console app alwyays expect a well formatted JSON parameter to be passed. If it is not a valid JSON it will validate it.                           *
+*      However there are a couple special keywords that can be passed which are givememydllhash and givememysqlscript.                                       *
+*                                                                                                                                                            *
+*      GIVEMEMYDLLHASH: It will provide you a hash that can be used to add the assembly to the trusted list using the sys.sp_add_trusted_assembly SP.        *
+*                                                                                                                                                            *
+*      GIVEMEMYSQLSCRIPT: It will provide you the whole t-sql script that will allow you:                                                                    *
+*                         - Add assembly to the trusted list.                                                                                                *
+*                         - Create the assembly.                                                                                                             *
+*                         - Create the stored procedure.                                                                                                     *
+*                         - Assembly/SP test script.                                                                                                         *
+*************************************************************************************************************************************************************/
+
+
 /*
 
 USE [DatabaseName]
 Go
 
-----------------------------------------------------------
------------- ADD ASSEMBLY TO THE TRUSTED CLRs ------------
-----------------------------------------------------------
+---------------------------------------------------------------
+------------ ADD ASSEMBLY TO THE TRUSTED CLRs List ------------
+---------------------------------------------------------------
 
--- drop assembly in case exists. 
+-- Drop assembly in case exists. 
 -- Find hash of the assembly to delete: SELECT * FROM sys.trusted_assemblies
--- EXEC sys.sp_drop_trusted_assembly thehash
--- @clrName E.g: 'clr_name, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
+-- EXEC sys.sp_drop_trusted_assembly THEHASH
 
+-- @clrName E.g: 'clr_name, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
 DECLARE @clrName nvarchar(4000) = 'MovingFiles_CLR, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
 DECLARE @hash binary(64) = [myhash];
 

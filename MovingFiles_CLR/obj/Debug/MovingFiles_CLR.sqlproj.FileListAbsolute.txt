@@ -27,3 +27,7 @@ P:\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll
 P:\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.pdb
 P:\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.dll
 P:\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\MovingFiles_CLR.pdb
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\Model.xml
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\refactor.xml
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\postdeploy.sql
+D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\obj\Debug\predeploy.sql

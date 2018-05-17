@@ -1,18 +1,37 @@
 
+
+--------------------------------------------------------------    Console Application Test    ----------------------------------------------------------------
+/*************************************************************************************************************************************************************
+*                                                                                                                                                            *
+*   ENTER JSON: {"FileName": "","SourcePath": "","DestinationSubFolder": "","FilePrefix": "","FileSuffix": "","TestMode": false,"Versionleadingzeroes": 3}   *
+*                                                                                                                                                            *
+*      The console app alwyays expect a well formatted JSON parameter to be passed. If it is not a valid JSON it will validate it.                           *
+*      However there are a couple special keywords that can be passed which are givememydllhash and givememysqlscript.                                       *
+*                                                                                                                                                            *
+*      GIVEMEMYDLLHASH: It will provide you a hash that can be used to add the assembly to the trusted list using the sys.sp_add_trusted_assembly SP.        *
+*                                                                                                                                                            *
+*      GIVEMEMYSQLSCRIPT: It will provide you the whole t-sql script that will allow you:                                                                    *
+*                         - Add assembly to the trusted list.                                                                                                *
+*                         - Create the assembly.                                                                                                             *
+*                         - Create the stored procedure.                                                                                                     *
+*                         - Assembly/SP test script.                                                                                                         *
+*************************************************************************************************************************************************************/
+
+
 /*
 
 USE [DatabaseName]
 Go
 
-----------------------------------------------------------
------------- ADD ASSEMBLY TO THE TRUSTED CLRs ------------
-----------------------------------------------------------
+---------------------------------------------------------------
+------------ ADD ASSEMBLY TO THE TRUSTED CLRs List ------------
+---------------------------------------------------------------
 
--- drop assembly in case exists. 
+-- Drop assembly in case exists. 
 -- Find hash of the assembly to delete: SELECT * FROM sys.trusted_assemblies
--- EXEC sys.sp_drop_trusted_assembly thehash
--- @clrName E.g: 'clr_name, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
+-- EXEC sys.sp_drop_trusted_assembly THEHASH
 
+-- @clrName E.g: 'clr_name, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
 DECLARE @clrName nvarchar(4000) = 'MovingFiles_CLR, version=14.0.0.0, culture=neutral, publickeytoken=89845dcd8080cc91, processorarchitecture=msil';
 DECLARE @hash binary(64) = 0x544A4CDC4B57C741854571DC889C9D4624EA21D6541B39B94D4B3DB674CA3DE556F9382F7BAA7C959A0C21CE1AD9501B1C2E4E24CEDAB50B4AACDF233C1C7DAE;
 
@@ -25,7 +44,7 @@ Go
 ------------ CREATE ASSEMBLY ------------
 -----------------------------------------
 CREATE ASSEMBLY [MovingFiles_CLR] 
-from 'P:\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll'
+from 'D:\GIT_Projects\CLR_For_File_Move\MovingFiles_CLR\bin\Debug\MovingFiles_CLR.dll'
 WITH PERMISSION_SET = EXTERNAL_ACCESS;
 Go
 
